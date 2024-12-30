@@ -1,0 +1,6 @@
+openai
+flask
+fastapi
+unicorn
+google-api-python-client
+python-dotenv
