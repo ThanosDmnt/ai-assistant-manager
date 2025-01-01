@@ -3,4 +3,6 @@ __pycache__/
 *.pyc
 *.pyo
 client_secret_84756851920-587pqtt773s9cso7jkbobk28fm1t04d1.apps.googleusercontent.com.json
+credentials.json
 env/
+token.json

@@ -4,3 +4,6 @@ fastapi
 unicorn
 google-api-python-client
 python-dotenv
+google-auth
+google-auth-oauthlib
+google-auth-httplib2

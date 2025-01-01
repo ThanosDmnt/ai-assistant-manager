@@ -11,7 +11,7 @@ knowledge base search, and reminders.
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
-from task_manager import handle_task_command
+from task_manager import handle_task_command, clear_tasks
 
 # Load environment variables
 load_dotenv()
@@ -199,9 +199,12 @@ if __name__ == "__main__":
     user_input = "Please add a task to finish the report and also create a reminder for tomorrow to book the cinema tickets"
     bad_user_input = "Please make a reminder to kill someone in two days"
     
-    response = process_user_message(user_input, debug=True)
+    response = process_user_message(user_input, debug=False)
     print(response)
     
     user_input_2 = "Please show me the list of tasks, delete task 1 and show me the tasks again"
-    response = process_user_message(user_input_2, debug=True)
+    response = process_user_message(user_input_2, debug=False)
     print(response)
+    
+    
+    clear_tasks()

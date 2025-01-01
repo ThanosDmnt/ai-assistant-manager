@@ -55,6 +55,12 @@ def delete_task(task_index):
         return f"Task removed: {tasks[task_index]['description']}"
     except IndexError:
         return "Invalid task number. Please provide a valid task index."
+    
+
+def clear_tasks():
+    tasks = {}
+    save_tasks(tasks)
+    return "All tasks have been cleared."
 
 
 # Function to handle user commands
@@ -94,3 +100,4 @@ if __name__ == "__main__":
     print(handle_task_command("delete task", "1"))
     print(handle_task_command("delete task", "5"))
     print(handle_task_command("list tasks", ""))
+    
