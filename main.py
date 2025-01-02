@@ -12,6 +12,7 @@ from openai import OpenAI
 import os
 from dotenv import load_dotenv
 from task_manager import handle_task_command, clear_tasks
+from scheduler import handle_schedule_action
 import utils
 import json
 
@@ -119,7 +120,14 @@ def process_user_message(user_input, debug=True):
                 if debug: print(f"Error parsing schedule response: {e}")
                 return "I'm sorry, I couldn't understand your request."
             
-            responses.append(f"Schedule json: {schedule_json}")
+            if debug: print(f"Schedule json: {schedule_json}")
+            # Call handle_schedule_action with the parsed JSON
+            try:
+                schedule_action_result = handle_schedule_action(schedule_json)
+                responses.append(schedule_action_result)
+            except Exception as e:
+                if debug: print(f"Error handling schedule action: {e}")
+                responses.append("An error occurred while processing your schedule request.")
         
         elif category == "reminder":
             reminder_prompt = utils.get_reminder_prompt()
@@ -160,15 +168,24 @@ def test_chatgpt():
 
 
 if __name__ == "__main__":
-    user_input = "Please add a task to finish the report and also create a reminder for tomorrow to book the cinema tickets"
-    bad_user_input = "Please make a reminder to kill someone in two days"
+    # user_input = "Please add a task to finish the report and also create a reminder for tomorrow to book the cinema tickets"
+    # bad_user_input = "Please make a reminder to kill someone in two days"
     
-    response = process_user_message(user_input, debug=True)
+    # response = process_user_message(user_input, debug=True)
+    # print(response)
+    
+    # user_input_2 = "Please show me the list of tasks, delete task 1 and show me the tasks again"
+    # response = process_user_message(user_input_2, debug=True)
+    # print(response)
+    
+    
+    # clear_tasks()
+    
+    user_input = "Schedule a meeting on Saturday evening at 6:30 pm."
+    response = process_user_message(user_input, debug=False)
     print(response)
     
-    user_input_2 = "Please show me the list of tasks, delete task 1 and show me the tasks again"
-    response = process_user_message(user_input_2, debug=True)
+    user_input = "Schedule a gym workout on next Tuesday at 10 am. Also show me my schedule for the next 7 days."
+    response = process_user_message(user_input, debug=False)
     print(response)
     
-    
-    clear_tasks()
