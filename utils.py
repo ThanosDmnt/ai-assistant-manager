@@ -130,27 +130,6 @@ def get_schedule_prompt():
     """
 
 
-def get_reminder_prompt():
-    """
-    Returns the prompt used for reminder queries.
-    """
-    return """
-    You are an assistant helping to manage reminders. 
-    Extract actionable details for reminders in the following JSON format:
-    
-    {
-        "reminder_action": "<add/delete/list>",
-        "details": "<reminder details>"
-    }
-    
-    Examples:
-    - Input: "Add a reminder to book cinema tickets tomorrow."
-      Output: {"reminder_action": "add", "details": "Book cinema tickets tomorrow"}
-      
-    Ensure responses strictly follow this JSON format.
-    """
-
-
 def get_classification_prompt():
     """
     Returns the prompt used for classifying user input into categories and subcategories.
@@ -174,7 +153,6 @@ def get_classification_prompt():
     - "task" with details such as "add task: Finish project Platon, delete the task 3, show the list of tasks"
     - "schedule" with details such as "schedule an event for tomorrow, show a list of scheduled events for the next week"
     - "reminder" with details such as "add a reminder for tommorow to call Stefanos, delete the reminder 2, show the list of reminders"
-    - "informations" with details such as "information about the last month's accomplishments of the user"
     
     The details should be detailed instructions for another LLM model that should be able to understand the requirements and handle the user's requests.
     
@@ -206,12 +184,6 @@ def get_classification_prompt():
     Input: "What are my tasks for today? Also remind me after 2 hours to ask you again"
     Output: {
                 "classification": [{"category": "task"}, {"category": "reminder"}]
-                "details": ["Show the list of the tasks", "Remind the user in 2 hours to ask for today's tasks"]
-            }
-    
-    Input: "Please tell me about my accomplishments this past month"
-    Output: {
-                "classification": [{"category": "informations"}]
                 "details": ["Show the list of the tasks", "Remind the user in 2 hours to ask for today's tasks"]
             }
     

@@ -85,9 +85,6 @@ def process_user_message(user_input, debug=True):
     responses = []
     for classification, info in zip(classifications, details):
         category = classification.get("category")
-        
-        if not category:
-            return "I couldn't classify your request. Please try again."
 
         if category == "task":
             tasks_prompt = utils.get_task_prompt()
@@ -127,28 +124,9 @@ def process_user_message(user_input, debug=True):
                 responses.append(schedule_action_result)
             except Exception as e:
                 if debug: print(f"Error handling schedule action: {e}")
-                responses.append("An error occurred while processing your schedule request.")
-        
-        elif category == "reminder":
-            reminder_prompt = utils.get_reminder_prompt()
-            reminder_manager_response = get_model_response(info, reminder_prompt)
-            
-            # Parse reminder_manager_response
-            try:
-                reminder_action = json.loads(reminder_manager_response).get("reminder_action", {})
-                reminder_details = json.loads(reminder_manager_response).get("details", {})
-            except Exception as e:
-                if debug: print(f"Error parsing reminder response: {e}")
-                return "I'm sorry, I couldn't understand your request."
-            
-            responses.append(f"Reminder action: {reminder_action}")
-            responses.append(f"Reminder details: {reminder_details}")
-        
-        elif category == "informations":
-            # information_prompt = utils.get_reminder_prompt()
-            # information_manager_response = get_model_response(info, reminder_prompt)
-            
-            responses.append(f"Information: {info}")
+                responses.append("An error occurred while processing your schedule request.")        
+        else:
+            return f"I couldn't classify your request. Please try again. (category = {category})"
             
 
     return "\n".join(responses)
@@ -168,8 +146,8 @@ def test_chatgpt():
 
 
 if __name__ == "__main__":
-    # user_input = "Please add a task to finish the report and also create a reminder for tomorrow to book the cinema tickets"
-    # bad_user_input = "Please make a reminder to kill someone in two days"
+    # user_input = "Please add a task to finish the report"
+    # bad_user_input = "Please schedule to kill someone in two days"
     
     # response = process_user_message(user_input, debug=True)
     # print(response)
