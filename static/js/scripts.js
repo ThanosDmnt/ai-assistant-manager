@@ -59,4 +59,14 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+
+
+    // Handle text input
+    const textInput = document.getElementById("userInput");
+    const charCount = document.getElementById("charCount");
+
+    textInput.addEventListener("input", () => {
+        const currentLength = textInput.value.length;
+        charCount.textContent = `${currentLength}/50`;
+    });
 });
