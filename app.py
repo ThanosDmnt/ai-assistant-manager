@@ -126,14 +126,6 @@ def process_user_message(user_input, debug=True):
 def home():
     return render_template("base.html")
 
-@app.route("/tasks")
-def tasks_page():
-    return render_template("tasks.html")
-
-@app.route("/schedule")
-def schedule_page():
-    return render_template("events.html")
-
 @app.route("/process", methods=["POST"])
 def process_input():
     user_input = json.loads(request.data.decode('utf-8')).get("user_input")  # Get input from the form
