@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, render_template
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
-from task_manager import handle_task_command, clear_tasks
+from task_manager import handle_task_command, clear_tasks_json
 from scheduler import handle_schedule_action
 import utils
 import json
@@ -133,6 +133,24 @@ def process_input():
     response = process_user_message(user_input, debug=False)  # Process the input
     
     return jsonify({"response": response})  # Return the response as JSON
+
+@app.route("/tasks", methods=["GET"])
+def get_tasks():
+    try:
+        with open("database/tasks.json", "r") as f:
+            tasks = json.load(f)
+        return jsonify(tasks)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+@app.route("/clear-tasks", methods=["POST"])
+def clear_tasks():
+    try:
+        clear_tasks_json()
+        return jsonify({"message": "Tasks cleared successfully!"}), 200
+    except Exception as e:
+        print(f"Error clearing tasks: {e}")
+        return jsonify({"message": "Failed to clear tasks."}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)

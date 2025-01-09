@@ -57,7 +57,7 @@ def delete_task(task_index):
         return "Invalid task number. Please provide a valid task index."
     
 
-def clear_tasks():
+def clear_tasks_json():
     tasks = {}
     save_tasks(tasks)
     return "All tasks have been cleared."

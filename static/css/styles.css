@@ -97,25 +97,63 @@ h4 {
     display: flex;
     justify-content: center;
     align-items: top;
-    margin-right: 100px;
-    /* border: 2px solid white */
 }
 
-#chatbotImage{
-    max-width: 73%;
-    height: auto;
-    width: auto;
-    margin-right: 20px;
+.tasksHeader {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    justify-content: center; /* Center items horizontally */
+    position: relative; /* Allows precise positioning */
+    margin-bottom: 10px;
 }
 
-#response {
-    width: 300px;
-    height: 300px;
-    max-height: 300px; /* Restrict the maximum height to 300px */
+#clearTasksButton {
+    position: absolute;
+    left: 0; /* Place the button to the far left */
+    margin-left: 10px; /* Add spacing from the edge */
+    padding: 7px 12px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #2b2d33; /* Green color */
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#clearTasksButton:hover {
+    background-color: #5c5c5c; /* Darker green on hover */
+}
+
+.tasksHeader h3 {
+    text-align: center; /* Center the text */
+    flex-grow: 1; /* Allow the headline to take up remaining space */
+}
+
+.tasksArea ul {
+    list-style-type: disc;
+}
+
+.tasksArea li {
+    font-size: 16px;
+    margin-bottom: 8px;
+    margin-right: 7px;
+    text-align: left;
+}
+
+.tasksArea li.completed {
+    color: gray;
+    text-decoration: line-through;
+}
+
+.responseContent {
+    width: 400px;
+    height: 400px;
+    max-height: 400px; /* Restrict the maximum height to 300px */
     background-color: #444654;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    padding: 20px;
+    margin: 20px;
     font-size: 18px;
     overflow-y: auto; /* Enable vertical scrolling if content exceeds height */
     color: #f5f5f5; /* Improve text visibility */

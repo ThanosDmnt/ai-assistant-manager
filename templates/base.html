@@ -53,9 +53,16 @@
             <!-- Right Chatbot Image Section -->
             <div class="chatbot-area">
                 <div class="responseArea">
-                    <img id="chatbotImage" src="{{ url_for('static', filename='images/chatbot.png') }}" alt="Chatbot" />
                     <div class="responseContent">
-                        <p id="response">Hello Human!</p>
+                        <div class="tasksHeader">
+                            <button id="clearTasksButton">Clear</button>
+                            <h3>Tasks</h3>
+                        </div>
+                        <div class="tasksArea"></div>
+                    </div>
+                    <div class="responseContent">
+                        <h3>Response</h3>
+                        <p id="response"></p>
                     </div>
                 </div>
                 <div class="boxed">

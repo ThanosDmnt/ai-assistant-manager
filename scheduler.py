@@ -23,9 +23,11 @@ def authenticate_google_calendar():
     Authenticates the user and returns the Google Calendar API service object.
     """
     creds = None
+    token_path = "token.json"
+    
     # Check if token.json exists to load saved credentials
-    if os.path.exists("token.json"):
-        creds = Credentials.from_authorized_user_file("token.json", SCOPES)
+    if os.path.exists(token_path):
+        creds = Credentials.from_authorized_user_file(token_path, SCOPES)
 
     # If credentials are invalid or missing, perform the OAuth flow
     if not creds or not creds.valid:
@@ -35,7 +37,7 @@ def authenticate_google_calendar():
             flow = InstalledAppFlow.from_client_secrets_file("credentials.json", SCOPES)
             creds = flow.run_local_server(port=0)
         # Save credentials for the next session
-        with open("token.json", "w") as token:
+        with open(token_path, "w") as token:
             token.write(creds.to_json())
 
     try:
@@ -205,14 +207,14 @@ if __name__ == "__main__":
             "time_zone": "Europe/Athens"
         }
     }
-    print(handle_schedule_action(add_example))
+    # print(handle_schedule_action(add_example))
     
     # Example JSON for viewing events
     view_example = {
         "schedule_action": "view",
         "time_range": {
             "start_time": "2025-01-02T00:00:00:00",
-            "end_time": "2025-01-03T00:00:00:00",
+            "end_time": "2025-01-10T00:00:00:00",
             "time_zone": "Europe/Athens"
         }
     }

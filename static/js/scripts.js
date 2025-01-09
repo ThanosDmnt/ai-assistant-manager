@@ -1,41 +1,50 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Handle user's submission
-    const taskForm = document.getElementById("task-form");
-    if (taskForm) {
-        taskForm.addEventListener("submit", async (event) => {
-            event.preventDefault(); // Prevent the form from reloading the page
-
-            const taskInput = document.getElementById("task-input").value;
-            const taskResponse = document.getElementById("task-response");
-
-
-            try {
-                const response = await fetch("/process", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ user_input: taskInput }),
-                });
-
-                console.log(response);
-
-                const result = await response.json();
-                taskResponse.textContent = result.response;
-                taskResponse.style.display = "block";
-            } catch (error) {
-                taskResponse.textContent = "An error occurred. Please try again.";
-                taskResponse.style.display = "block";
-                console.error("Error:", error);
-            }
-        });
-    }
-
-
     const userInput = document.getElementById("userInput");
     const submitButton = document.getElementById("submitButton");
     const charCount = document.getElementById("charCount");
     const responseContainer = document.getElementById("response");
+    const tasksArea = document.querySelector(".tasksArea");
+    const clearTasksButton = document.getElementById("clearTasksButton");
+
+    // Function to fetch and display tasks
+    function displayTasks() {
+        fetch("/tasks")
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Failed to fetch tasks.");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                const taskList = document.createElement("ol");
+
+                for (const [id, task] of Object.entries(data)) {
+                    const listItem = document.createElement("li");
+
+                    // Set task description
+                    listItem.textContent = task.description;
+
+                    // Add a strikethrough for completed tasks
+                    if (task.completed) {
+                        listItem.style.textDecoration = "line-through";
+                        listItem.style.color = "gray";
+                    }
+
+                    taskList.appendChild(listItem);
+                }
+
+                // Clear any existing content and append the task list
+                tasksArea.innerHTML = "";
+                tasksArea.appendChild(taskList);
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+                tasksArea.innerHTML = "<p>Failed to load tasks.</p>";
+            });
+    }
+
+    // Call the displayTasks function to load and render tasks
+    displayTasks();
 
     // Update character count as user types
     userInput.addEventListener("input", () => {
@@ -65,6 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const result = await response.json();
             modelResponse = result.response;
+            displayTasks();
         } catch (error) {
             modelResponse = "An error occurred. Please try again.";
             console.error("Error:", error);
@@ -98,4 +108,28 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }, 50); // Adjust the speed of typing (in milliseconds)
     }
+
+
+    // Handle clear tasks button click
+    clearTasksButton.addEventListener("click", async () => {
+        try {
+            const response = await fetch("/clear-tasks", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+    
+            if (response.ok) {
+                const result = await response.json();
+                console.log(result);
+                // Refresh the tasks displayed on the page
+                tasksArea.innerHTML = "<p>No tasks available.</p>";
+            } else {
+                console.error("Failed to clear tasks. Please try again.");
+            }
+        } catch (error) {
+            console.error("Error clearing tasks:", error);
+        }
+    });
 });
