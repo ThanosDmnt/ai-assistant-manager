@@ -155,8 +155,20 @@ h4 {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     margin: 20px;
     font-size: 18px;
-    overflow-y: auto; /* Enable vertical scrolling if content exceeds height */
     color: #f5f5f5; /* Improve text visibility */
+    overflow: hidden;
+}
+
+#response {
+    max-height: 280px; /* Limit the height to allow scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: hidden; /* Disable horizontal scrolling */
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    padding: 10px;
+    width: 100%; /* Ensure the paragraph takes the full width of its container */
+    box-sizing: border-box; /* Include padding in the width calculation */
+    text-align: left;
 }
 
 .boxed {

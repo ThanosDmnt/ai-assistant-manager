@@ -10,6 +10,8 @@ By centralizing prompts here, the codebase becomes more maintainable and allows
 for easy updates to the assistant's behavior.
 """
 
+from datetime import datetime
+
 def get_task_prompt():
     """
     Returns the prompt used for task management queries.
@@ -45,86 +47,91 @@ def get_schedule_prompt():
     """
     Returns the prompt used for scheduling queries.
     """
-    return """
+    
+    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    return f"""
     You are an assistant helping to manage schedules using the Google Calendar API.
 
     Available schedule actions:
     - "add": Schedule a new event.
     - "view": View existing events within a specified time range.
+    
+    Current date and time: {current_time}
 
     Extract actionable details for scheduling in the following JSON format:
     
     - For "add" action:
-    {
+    {{
         "schedule_action": "add",
-        "event_details": {
+        "event_details": {{
             "title": "<event title>",
             "description": "<event description>",
             "start_time": "<YYYY-MM-DDTHH:MM:SS>",
             "end_time": "<YYYY-MM-DDTHH:MM:SS>",
             "time_zone": "Europe/Athens"
-        }
-    }
+        }}
+    }}
     
     - For "view" action:
-    {
+    {{
         "schedule_action": "view",
-        "time_range": {
+        "time_range": {{
             "start_time": "<YYYY-MM-DDTHH:MM:SS>",
             "end_time": "<YYYY-MM-DDTHH:MM:SS>",
             "time_zone": "Europe/Athens"
-        }
-    }
+        }}
+    }}
     
     Examples:
     
     - Input: "Schedule a meeting tomorrow at 3 PM with John."
       Output: 
-      {
+      {{
         "schedule_action": "add",
-        "event_details": {
+        "event_details": {{
             "title": "Meeting with John",
             "description": "Meeting with John",
             "start_time": "2025-01-02T15:00:00",
             "end_time": "2025-01-02T16:00:00",
             "time_zone": "Europe/Athens"
-        }
-      }
+        }}
+      }}
       
     - Input: "Show me all events for the next week."
       Output: 
-      {
+      {{
         "schedule_action": "view",
-        "time_range": {
+        "time_range": {{
             "start_time": "2025-01-01T00:00:00",
             "end_time": "2025-01-07T23:59:59",
             "time_zone": "Europe/Athens"
-        }
-      }
+        }}
+      }}
     
     - Input: "Add an event for my yoga class this Saturday at 8 AM."
       Output: 
-      {
+      {{
         "schedule_action": "add",
-        "event_details": {
+        "event_details": {{
             "title": "Yoga Class",
             "description": "Yoga Class",
             "start_time": "2025-01-04T08:00:00",
             "end_time": "2025-01-04T09:00:00",
             "time_zone": "Europe/Athens"
-        }
-      }
+        }}
+      }}
     
     - Input: "List all my events for today."
       Output: 
-      {
+      {{
         "schedule_action": "view",
-        "time_range": {
+        "time_range": {{
             "start_time": "2025-01-01T00:00:00",
             "end_time": "2025-01-01T23:59:59",
             "time_zone": "Europe/Athens"
-        }
-      }
+        }}
+      }}
     
     Ensure responses strictly follow this JSON format. Provide only the JSON output, nothing else.
     """
