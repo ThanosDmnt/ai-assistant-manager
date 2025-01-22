@@ -26,7 +26,7 @@ An AI-powered application designed to assist users with task management and sche
 ## Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/ThanosDmnt/ai-management-assistant.git
+   git clone https://github.com/ThanosDmnt/ai-assistant-manager.git
    cd ai-assistant-manager
    ```
 2. Install dependencies:
