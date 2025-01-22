@@ -192,10 +192,6 @@ def handle_schedule_action(schedule_json):
 
 # Example Usage
 if __name__ == "__main__":
-    
-    # print(datetime.datetime.utcnow().isoformat() + "Z")
-    # exit()
-    
     # Example JSON for adding an event
     add_example = {
         "schedule_action": "add",
@@ -207,7 +203,6 @@ if __name__ == "__main__":
             "time_zone": "Europe/Athens"
         }
     }
-    # print(handle_schedule_action(add_example))
     
     # Example JSON for viewing events
     view_example = {
@@ -218,6 +213,7 @@ if __name__ == "__main__":
             "time_zone": "Europe/Athens"
         }
     }
+    
     print(handle_schedule_action(view_example))
 
 

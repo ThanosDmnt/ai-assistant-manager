@@ -134,7 +134,7 @@ def handle_task_command(subcategory, task_info):
     Handles specific task commands based on the subcategory.
 
     Parameters:
-        subcategory (str): The specific task action, e.g., "add", "list", "delete".
+        subcategory (str): The specific task action, e.g., "add", "help", "delete".
         task_info (str): Additional information about the task (e.g., description or index).
 
     Returns:
