@@ -38,7 +38,7 @@ An AI-powered application designed to assist users with task management and sche
    - Add your OpenAI API key and Google API credentials:
      ```
      OPENAI_API_KEY=your-openai-api-key
-     GOOGLE_CLIENT_SECRET=your-client-secret
+     GOOGLE_API_CREDENTIALS_PATH=your-client-secret
      ```
 4. Run the application:
    ```bash
