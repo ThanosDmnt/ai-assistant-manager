@@ -1,1 +1,14 @@
-{}
+{
+    "1": {
+        "description": "Cook spaghetti",
+        "completed": false
+    },
+    "2": {
+        "description": "Develop LLM project",
+        "completed": false
+    },
+    "3": {
+        "description": "Harm someone with a knife",
+        "completed": true
+    }
+}

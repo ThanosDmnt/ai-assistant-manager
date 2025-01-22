@@ -9,6 +9,39 @@ and storing them persistently in a database or file.
 
 import os
 import json
+from openai import OpenAI
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+# Set OpenAI API key
+client = OpenAI(
+    api_key=os.getenv("OPENAI_API_KEY")
+)
+
+def get_completion_from_messages(messages, model="gpt-3.5-turbo", temperature=0, max_tokens=500):
+    response = client.chat.completions.create(
+        model=model,
+        messages=messages,
+        temperature=temperature, 
+        max_tokens=max_tokens, 
+    )
+    return response.choices[0].message.content
+
+def get_model_response(user_input, system_message):
+    """
+    Generates a response from the model based on the provided user query and system prompt.
+    """
+    delimeter = "```"
+    
+    messages = [
+        {'role': 'system', 'content': system_message},
+        {'role': 'user', 'content': f"{delimeter}{user_input}{delimeter}"}
+    ]
+    
+    response = get_completion_from_messages(messages)
+    return response
 
 # File to store tasks
 TASKS_FILE = ".\\database\\tasks.json"
@@ -63,6 +96,38 @@ def clear_tasks_json():
     return "All tasks have been cleared."
 
 
+def help_task(task_info):
+    """
+    Returns a system prompt to provide the user with instructions about a specific task.
+    If the task is not in the list, returns a corresponding message.
+    """
+    
+    task_list = list_tasks()
+    
+    print(task_list)
+    
+    system_prompt = f"""
+        You are an assistant helping a user with a specific task from his list.
+        
+        This is the user's task list:
+        {task_list}
+        
+        If task is not in the user's list return a message such as:
+        "The task "<task name>" is not in your current list.
+        You can add this task to your list or check the existing tasks for a similar one."
+        
+        If the task exists in the list:
+        Here are the instructions for this task:
+        1. Provide a detailed step-by-step guide to accomplish this task.
+        2. Suggest resources or tools the user might need.
+        3. If the task involves specific technologies or methods, provide examples or best practices.
+    """
+    
+    response = get_model_response(f"Please give me instructions for the task {task_info}", system_prompt)
+    
+    return response
+
+
 # Function to handle user commands
 def handle_task_command(subcategory, task_info):
     """
@@ -77,8 +142,8 @@ def handle_task_command(subcategory, task_info):
     """
     if subcategory == "add":
         return add_task(task_info)
-    elif subcategory == "list":
-        return list_tasks()
+    elif subcategory == "help":
+        return help_task(task_info)
     elif subcategory == "delete":
         try:
             task_index = str(task_info)

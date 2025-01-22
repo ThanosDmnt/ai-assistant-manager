@@ -21,11 +21,11 @@ def get_task_prompt():
     Available tasks actions:
     - "add": Add a new task.
     - "delete": Delete an existing task.
-    - "list": List all tasks. 
+    - "help": Give user instructions for a specific task. 
     
     Extract actionable details for task management in the following JSON format:
     {
-        "task_action": "<add/delete/list>",
+        "task_action": "<add/delete/help>",
         "details": "<details of the task>"
     }
     
@@ -36,8 +36,8 @@ def get_task_prompt():
     - Input: "Delete task 2."
       Output: {"task_action": "delete", "details": "2"}
       
-    - Input: "Show me the today's tasks"
-      Output: {"task_action": "list", "details": "list of tasks"}
+    - Input: "Please help me with the task 3"
+      Output: {"task_action": "help", "details": "3"}
       
     Ensure responses strictly follow this JSON format.
     """
@@ -188,10 +188,10 @@ def get_classification_prompt():
                 "details": ["Add task to cook spaghetti", "schedule an event for 20-01-2025 at 6 PM"]
             }
     
-    Input: "What are my tasks for today? Also remind me after 2 hours to ask you again"
+    Input: "Please give me instructions for task 3. Also remind me after 2 hours to join a google meeting."
     Output: {
                 "classification": [{"category": "task"}, {"category": "reminder"}]
-                "details": ["Show the list of the tasks", "Remind the user in 2 hours to ask for today's tasks"]
+                "details": ["Give instructions for task 3", "Remind the user in 2 hours to join the google meeting"]
             }
     
     Ensure your response is concise and strictly in JSON format.
